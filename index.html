@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expresii Regulate</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="container">
+    <h2>Verificare Expresii Regulate</h2>
+    <input type="text" id="pattern" placeholder="Introduceți un pattern...">
+    <input type="text" id="text1" placeholder="Introduceți textul...">
+    <textarea id="text2" rows="6" placeholder="Introduceți textul mai mare..."></textarea>
+    <button onclick="verificaPattern()">Verifică</button>
+    <div id="rezultat"></div>
+</div>
+
+<script>
+function verificaPattern() {
+    var pattern = document.getElementById('pattern').value;
+    var text1 = document.getElementById('text1').value;
+    var text2 = document.getElementById('text2').value;
+    var regex;
+
+
+    var isValid = true;
+    try {
+        regex = new RegExp(pattern); // Nu mai avem nevoie de flag-ul 'g' pentru această abordare
+    } catch (e) {
+        isValid = false;
+        
+    }
+    if(!isValid) alert("Invalid regular expression");
+
+    if (regex.test(text1)) {
+        document.getElementById('rezultat').innerHTML = 'Textul 1 are match cu pattern-ul.';
+    } else {
+        document.getElementById('rezultat').innerHTML = 'Textul 1 nu are match cu pattern-ul.';
+    }
+
+    var words = text2.split(' ');
+    var matchList = [];
+
+    for (var i = 0; i < words.length; i++) {
+        if (regex.test(words[i])) {
+            matchList.push(words[i]);
+        }
+    }
+
+    if (matchList.length > 0) {
+        document.getElementById('rezultat').innerHTML += '<br><br>Stringurile care îndeplinesc pattern-ul din textul 2 sunt:<br>';
+        for (var i = 0; i < matchList.length; i++) {
+            document.getElementById('rezultat').innerHTML += matchList[i] + '<br>';
+        }
+    } else {
+        document.getElementById('rezultat').innerHTML += '<br><br>Nu există stringuri care să îndeplinească pattern-ul în textul 2.';
+    }
+}
+</script>
+</body>
+</html>
